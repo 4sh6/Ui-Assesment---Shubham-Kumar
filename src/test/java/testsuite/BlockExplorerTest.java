@@ -29,7 +29,7 @@ public class BlockExplorerTest {
     public void validateTransactionSectionHeader() {
         driver.get(URL);
 
-        // Wait for the transaction list to load
+
         WebElement txnHeader = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//*[@id=\"explorer\"]/div/div/div[2]/div[2]/div[3]/h3"))
@@ -38,7 +38,7 @@ public class BlockExplorerTest {
         String headerText = txnHeader.getText().trim();
         System.out.println("Transaction section header: " + headerText);
 
-        // Verify header contains "25 of 2875 Transactions"
+
         Assert.assertTrue(headerText.contains("25 of 2875 Transactions"),
                 "Header text mismatch: " + headerText);
     }
@@ -47,13 +47,13 @@ public class BlockExplorerTest {
     public void parseTransactionsAndPrintMatchingOnes() {
         driver.get(URL);
 
-        // Locate container holding all transactions
+
         WebElement transactionContainer = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.xpath("//*[@id='explorer']/div/div/div[2]/div[2]/div[3]"))
         );
 
-        // Get all transaction boxes
+
         List<WebElement> transactionCards = transactionContainer.findElements(
                 By.xpath(".//div[@id='transaction-box']")
         );
@@ -62,21 +62,21 @@ public class BlockExplorerTest {
 
         for (WebElement txn : transactionCards) {
             try {
-                // Transaction hash
+
                 WebElement hashElem = txn.findElement(By.cssSelector(".header a"));
                 String txnHash = hashElem.getText();
 
-                // Count inputs (vin)
+
                 int inputCount = txn.findElements(
                                 By.xpath(".//div[@class='vins']/div[@class='vin']"))
                         .size();
 
-                // Count outputs (vout)
+
                 int outputCount = txn.findElements(
                                 By.xpath(".//div[@class='vouts']/div[@class='vout']"))
                         .size();
 
-                // Print if it matches the required condition
+
                 if (inputCount == 1 && outputCount == 2) {
                     System.out.println("Transaction with 1 input & 2 outputs: " + txnHash);
                 }
